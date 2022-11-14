@@ -1,14 +1,18 @@
 package it.unibo.mvc;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+
 
 /**
  * This class is a simple application that writes a random number on a file.
@@ -22,6 +26,7 @@ public class MiniGUI {
     private static final int PROPORTION = 5;
     private final Random randomGenerator = new Random();
     private final JFrame frame = new JFrame(TITLE);
+    private static final String RESULT = "Result";
 
     /**
      * Creates a new {@link MiniGUI}.
@@ -29,8 +34,14 @@ public class MiniGUI {
     public MiniGUI() {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
+
+        final JPanel pPanel = new JPanel();
+        pPanel.setLayout(new BoxLayout(pPanel, BoxLayout.LINE_AXIS));
+        canvas.add(pPanel, BorderLayout.CENTER);
         final JButton write = new JButton("Print a random number on standard output");
-        canvas.add(write, BorderLayout.CENTER);
+        pPanel.add(write);
+        final JTextField result = new JTextField(RESULT);
+        canvas.add(result, BorderLayout.NORTH);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
@@ -39,7 +50,9 @@ public class MiniGUI {
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println(randomGenerator.nextInt());
+                final int res = randomGenerator.nextInt();
+                System.out.println(res);
+                result.setText(RESULT + ": " + Integer.toString(res));
             }
         });
     }
